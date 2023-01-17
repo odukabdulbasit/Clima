@@ -12,7 +12,6 @@ After you click on "Location City" you can enter the name of the city than click
 
 ## Built with
 
-<sup>
 - Kotlin
 - MVVM
 - Liva Data
@@ -20,7 +19,7 @@ After you click on "Location City" you can enter the name of the city than click
 - Moshi
 - Related Location component
 - View Binding
-</sup>
+
 
 
 ## Usage
