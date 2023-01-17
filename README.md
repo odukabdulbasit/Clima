@@ -1,12 +1,12 @@
 # Clima
 
 ## Wahat is Clima
-<sup>
+
 Clima is an android mobile application which can show your current location weather or which city would you like to learn it's weather. 
 App is have two screen. In first screen you can bring your current location weather just by click on "near me" icon, 
 and you can get the weather of the wanted city via clicks on "Location City icon". 
 After you click on "Location City" you can enter the name of the city than click "Get Weather" button. 
-</sup>
+
 
 
 
