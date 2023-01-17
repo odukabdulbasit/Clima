@@ -1,4 +1,4 @@
-package com.odukabdulbasit.clima.location
+package com.odukabdulbasit.clima.models
 
 import com.google.gson.annotations.SerializedName
 

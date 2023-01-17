@@ -13,81 +13,110 @@ import retrofit2.HttpException
 class LocationViewModel : ViewModel() {
 
 
-    private val _tempature = MutableLiveData<String>()
-    val tempature: LiveData<String> = _tempature
+    private val _temperature = MutableLiveData<String>()
+    val temperature: LiveData<String> = _temperature
 
     private val _message = MutableLiveData<String>()
     val message: LiveData<String> = _message
 
-    /*
-    * Weather
-    * Condition
-    * City name
-    * */
-    fun getMyLocationWeather(){
-        viewModelScope.launch{
-            try {
-                val result = WeatherApi.retrofitService.getLocationWeather("44.34", "10.99", Constant.apiKey, "metric")
-                val tempature = result.main?.temp
+    private val _isUploading = MutableLiveData<Boolean>()
+    val isUploading: LiveData<Boolean> = _isUploading
 
-                _tempature.value = "${tempature?.toInt()}°"
-                _message.value = getMessage(tempature?.toInt()!!)
-                Log.e("Tempature", "$tempature")
-                Log.e("result", "$result")
+
+    fun getMyLocationWeather(lat: Double, lon: Double) {
+
+        updateIsUploading()
+        viewModelScope.launch {
+            try {
+                val result = WeatherApi.retrofitService.getLocationWeather(
+                    lat.toString(),
+                    lon.toString(),
+                    Constant.apiKey,
+                    "metric"
+                )
+                val temperature = result.main?.temp
+
+                updateIsUploading()
+                _temperature.value = "${temperature?.toInt()}°"
+                _message.value = getMessage(temperature?.toInt()!!)
+                Log.i("Temperature", "$temperature")
+                Log.i("result", "$result")
+            } catch (e: HttpException) {
+                Log.i("Weather Error", e.localizedMessage)
+            }
+        }
+    }
+
+    fun getWeatherByCityName(cityName: String?) {
+        updateIsUploading()
+        viewModelScope.launch {
+            try {
+                val result =
+                    WeatherApi.retrofitService.getCityWeather(cityName!!, Constant.apiKey, "metric")
+                val temperature = result.main?.temp
+
+                updateIsUploading()
+                _temperature.value =
+                    "${temperature?.toInt()}° ${getWeatherIcon(temperature!!.toInt())}"
+                _message.value = getMessage(temperature.toInt())
+
+                Log.e("Temperature", "$temperature")
+                Log.e("Result", "$result")
             } catch (e: HttpException) {
                 Log.e("Weather Error", e.localizedMessage)
             }
         }
     }
 
-    fun getWeatherByCityName(cityName: String?) {
-        viewModelScope.launch {
-            try {
-                val result = WeatherApi.retrofitService.getCityWeather("london", Constant.apiKey, "metric")
-                val tempature = result.main?.temp
 
-                _tempature.value = "${tempature?.toInt()}°"
-                _message.value = getMessage(tempature?.toInt()!!)
-
-                Log.e("Tempature", "$tempature")
-                Log.e("result", "$result")
-            }catch (e: HttpException){
-                Log.e("Weather Error", e.localizedMessage)
+    private fun getWeatherIcon(condition: Int): String {
+        when {
+            condition < 300 -> {
+                return "🌩"
+            }
+            condition < 400 -> {
+                return "🌧"
+            }
+            condition < 600 -> {
+                return "☔️"
+            }
+            condition < 700 -> {
+                return "☃️"
+            }
+            condition < 800 -> {
+                return "🌫"
+            }
+            condition == 800 -> {
+                return "☀️"
+            }
+            condition <= 804 -> {
+                return "☁️"
+            }
+            else -> {
+                return "🤷‍"
             }
         }
     }
 
-
-     fun getWeatherIcon(condition: Int): String{
-        if (condition < 300) {
-            return "🌩"
-        } else if (condition < 400) {
-            return "🌧"
-        } else if (condition < 600) {
-            return "☔️"
-        } else if (condition < 700) {
-            return "☃️"
-        } else if (condition < 800) {
-            return "🌫"
-        } else if (condition == 800) {
-            return "☀️"
-        } else if (condition <= 804) {
-            return "☁️"
-        } else {
-            return "🤷‍"
+    private fun getMessage(temp: Int): String {
+        return when {
+            temp > 25 -> {
+                "It\'s 🍦 time"
+            }
+            temp > 20 -> {
+                "Time for shorts and 👕"
+            }
+            temp < 10 -> {
+                "You\'ll need 🧣 and 🧤"
+            }
+            else -> {
+                "Bring a 🧥 just in case"
+            }
         }
     }
 
-    fun getMessage(temp: Int): String {
-        if (temp > 25) {
-            return "It\'s 🍦 time"
-        } else if (temp > 20) {
-            return "Time for shorts and 👕"
-        } else if (temp < 10) {
-            return "You\'ll need 🧣 and 🧤"
-        } else {
-            return "Bring a 🧥 just in case"
-        }
+    private fun updateIsUploading() {
+        _isUploading.value = _isUploading.value != true
     }
 
 }
