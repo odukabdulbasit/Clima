@@ -30,6 +30,6 @@ After you click on "Location City" you can enter the name of the city than click
 Inspired by the flutter course taught by Angela.
 You can find the course link below:
 
-[https://www.udemy.com/course/flutter-bootcamp-with-dart/learn/lecture/14485974#overview]
+[https://github.com/londonappbrewery/Clima-Flutter-Completed]
 
 
