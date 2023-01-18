@@ -37,7 +37,8 @@ class LocationViewModel : ViewModel() {
                 val temperature = result.main?.temp
 
                 updateIsUploading()
-                _temperature.value = "${temperature?.toInt()}°"
+                _temperature.value =
+                    "${temperature?.toInt()}° ${getWeatherIcon(temperature!!.toInt())}"
                 _message.value = getMessage(temperature?.toInt()!!)
                 Log.i("Temperature", "$temperature")
                 Log.i("result", "$result")
