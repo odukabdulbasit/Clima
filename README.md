@@ -23,7 +23,10 @@ After you click on "Location City" you can enter the name of the city than click
 
 
 ## Usage
-![clima-demo (1)](https://user-images.githubusercontent.com/53040076/213178064-1715f93b-e1f6-4ef0-8f0b-f10db782880a.gif)
+
+
+https://user-images.githubusercontent.com/53040076/213442234-86e9eeaf-431b-48ba-8ee9-701061ff70b1.mp4
+
 
 
 ## Inspiration
